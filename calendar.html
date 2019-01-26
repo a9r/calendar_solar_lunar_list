@@ -1,28 +1,47 @@
+Solar Start: <input type="date" name="start">
+Solar End: <input type="date" name="end">
+<button>Show Solar Lunar List</button>
+<div id="result"></div>
 <script src='calendar.js'></script>
 <script>
     // calendar.solar2lunar(1987, 11, 01);
     // calendar.lunar2solar(1987, 9, 10);
 
+    document.querySelector("button").addEventListener("click", solarLunar, false);
+
     Number.prototype.fixZero = function(){return new Array(3 - this.toString().length).join('0') + this;}
-    var start = new Date('2016-01-01'), end = new Date('2016-12-31'), solarDate = start, lunarDate;
 
-    // 结束日期
-    while(solarDate <= end){
-        lunarDate=calendar.solar2lunar(solarDate.getFullYear(), solarDate.getMonth() + 1, solarDate.getDate());
-        console.log(
-            solarDate.getFullYear() + '-' + (solarDate.getMonth() + 1).fixZero() + '-'+ solarDate.getDate().fixZero(),
-            lunarDate.lYear + '-' + lunarDate.lMonth.fixZero() + '-' + lunarDate.lDay.fixZero()
-            );
-        solarDate.setDate(solarDate.getDate() + 1);
+    function solarLunar(){
+        var start = new Date(document.querySelector("[name='start']").value),
+            end = new Date(document.querySelector("[name='end']").value),
+            solarDate = start,
+            lunarDate;
+
+        // 结束日期
+        while(solarDate <= end){
+            lunarDate = calendar.solar2lunar(solarDate.getFullYear(), solarDate.getMonth() + 1, solarDate.getDate());
+            console.log(
+                solarDate.getFullYear() + '-' + (solarDate.getMonth() + 1).fixZero() + '-' + solarDate.getDate().fixZero(),
+                lunarDate.lYear + '-' + lunarDate.lMonth.fixZero() + '-' + lunarDate.lDay.fixZero()
+                );
+
+            var p = document.createElement("p");
+
+            p.innerHTML = "INSERT INTO TABLE VALUE ('"+solarDate.getFullYear() + "-" + (solarDate.getMonth() + 1).fixZero() + "-" + solarDate.getDate().fixZero()+"', '"+lunarDate.lYear + "-" + lunarDate.lMonth.fixZero() + "-" + lunarDate.lDay.fixZero()+"');";
+
+            document.querySelector("div").appendChild(p);
+
+            solarDate.setDate(solarDate.getDate() + 1);
+        }
+
+        // 天数
+        // for(var i=0; i < 60; i++){
+        //     solarDate.setDate(solarDate.getDate() + 1);
+        //     lunarDate=calendar.solar2lunar(solarDate.getFullYear(), solarDate.getMonth() + 1, solarDate.getDate());
+        //     console.log(
+        //         solarDate.getFullYear() + '-' + (solarDate.getMonth() + 1).fixZero() + '-' + solarDate.getDate().fixZero(),
+        //         lunarDate.lYear + '-' + lunarDate.lMonth.fixZero() + '-' + lunarDate.lDay.fixZero()
+        //         );
+        // }
     }
-
-    // 天数
-    // for(var i=0; i < 60; i++){
-    //     solarDate.setDate(solarDate.getDate() + 1);
-    //     lunarDate=calendar.solar2lunar(solarDate.getFullYear(), solarDate.getMonth() + 1, solarDate.getDate());
-    //     console.log(
-    //         solarDate.getFullYear() + '-' + (solarDate.getMonth() + 1).fixZero() + '-' + solarDate.getDate().fixZero(),
-    //         lunarDate.lYear + '-' + lunarDate.lMonth.fixZero() + '-' + lunarDate.lDay.fixZero()
-    //         );
-    // }
 </script>
