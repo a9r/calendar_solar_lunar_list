@@ -1,7 +1,7 @@
 Solar Start: <input type="date" name="start">
 Solar End: <input type="date" name="end">
 <button>Show Solar Lunar List</button>
-<div id="result"></div>
+<pre></pre>
 <script src='calendar.js'></script>
 <script>
     // calendar.solar2lunar(1987, 11, 01);
@@ -20,21 +20,16 @@ Solar End: <input type="date" name="end">
         var start = new Date(inputStart.value),
             end = new Date(inputEnd.value),
             solarDate = start,
-            lunarDate;
+            lunarDate,
+            html = [];
 
         // 结束日期
         while(solarDate <= end){
             lunarDate = calendar.solar2lunar(solarDate.getFullYear(), solarDate.getMonth() + 1, solarDate.getDate());
-            console.log(
-                solarDate.getFullYear() + '-' + (solarDate.getMonth() + 1).fixZero() + '-' + solarDate.getDate().fixZero(),
-                lunarDate.lYear + '-' + lunarDate.lMonth.fixZero() + '-' + lunarDate.lDay.fixZero()
-                );
 
             var p = document.createElement("p");
 
-            // p.innerHTML = "INSERT INTO TABLE VALUE ('"+solarDate.getFullYear() + "-" + (solarDate.getMonth() + 1).fixZero() + "-" + solarDate.getDate().fixZero()+"', '"+lunarDate.lYear + "-" + lunarDate.lMonth.fixZero() + "-" + lunarDate.lDay.fixZero()+"');";
-
-            p.innerHTML = "INSERT INTO TABLE VALUE ('"
+            html.push("\n('"
                 + solarDate.getFullYear() + "-" // 2018
                 + (solarDate.getMonth() + 1).fixZero() + "-" // 08
                 + solarDate.getDate().fixZero() + "', '" // 08
@@ -43,15 +38,12 @@ Solar End: <input type="date" name="end">
                 + lunarDate.lDay.fixZero() + "', '" // 08
                 + lunarDate.gzYear + lunarDate.IMonthCn + lunarDate.IDayCn + "', '"
                 + lunarDate.Animal
-                + "');";
-
-
-
-
-            document.querySelector("div").appendChild(p);
+                + "')");
 
             solarDate.setDate(solarDate.getDate() + 1);
         }
+        document.querySelector("pre").innerHTML = "";
+        document.querySelector("pre").innerHTML = "INSERT INTO TABLE VALUES " + html.join(",") + ";";
 
         // 天数
         // for(var i=0; i < 60; i++){
