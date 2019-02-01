@@ -11,9 +11,14 @@ Solar End: <input type="date" name="end">
 
     Number.prototype.fixZero = function(){return new Array(3 - this.toString().length).join('0') + this;}
 
+    var inputStart = document.querySelector("[name='start']"),
+        inputEnd = document.querySelector("[name='end']");
+
+    inputStart.valueAsDate = inputEnd.valueAsDate = new Date();
+
     function solarLunar(){
-        var start = new Date(document.querySelector("[name='start']").value),
-            end = new Date(document.querySelector("[name='end']").value),
+        var start = new Date(inputStart.value),
+            end = new Date(inputEnd.value),
             solarDate = start,
             lunarDate;
 
@@ -27,7 +32,21 @@ Solar End: <input type="date" name="end">
 
             var p = document.createElement("p");
 
-            p.innerHTML = "INSERT INTO TABLE VALUE ('"+solarDate.getFullYear() + "-" + (solarDate.getMonth() + 1).fixZero() + "-" + solarDate.getDate().fixZero()+"', '"+lunarDate.lYear + "-" + lunarDate.lMonth.fixZero() + "-" + lunarDate.lDay.fixZero()+"');";
+            // p.innerHTML = "INSERT INTO TABLE VALUE ('"+solarDate.getFullYear() + "-" + (solarDate.getMonth() + 1).fixZero() + "-" + solarDate.getDate().fixZero()+"', '"+lunarDate.lYear + "-" + lunarDate.lMonth.fixZero() + "-" + lunarDate.lDay.fixZero()+"');";
+
+            p.innerHTML = "INSERT INTO TABLE VALUE ('"
+                + solarDate.getFullYear() + "-" // 2018
+                + (solarDate.getMonth() + 1).fixZero() + "-" // 08
+                + solarDate.getDate().fixZero() + "', '" // 08
+                + lunarDate.lYear + "-" // 2018
+                + lunarDate.lMonth.fixZero() + "-" // 08
+                + lunarDate.lDay.fixZero() + "', '" // 08
+                + lunarDate.gzYear + lunarDate.IMonthCn + lunarDate.IDayCn + "', '"
+                + lunarDate.Animal
+                + "');";
+
+
+
 
             document.querySelector("div").appendChild(p);
 
