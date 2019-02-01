@@ -1,7 +1,7 @@
 Solar Start: <input type="date" name="start">
 Solar End: <input type="date" name="end">
 <button>Show Solar Lunar List</button>
-<pre></pre>
+<pre contenteditable="" readonly style="border: 1px solid #eee;outline: none;"></pre>
 <script src='calendar.js'></script>
 <script>
     // calendar.solar2lunar(1987, 11, 01);
@@ -12,7 +12,8 @@ Solar End: <input type="date" name="end">
     Number.prototype.fixZero = function(){return new Array(3 - this.toString().length).join('0') + this;}
 
     var inputStart = document.querySelector("[name='start']"),
-        inputEnd = document.querySelector("[name='end']");
+        inputEnd = document.querySelector("[name='end']")
+        outputArea = document.querySelector("pre");
 
     inputStart.valueAsDate = inputEnd.valueAsDate = new Date();
 
@@ -42,8 +43,8 @@ Solar End: <input type="date" name="end">
 
             solarDate.setDate(solarDate.getDate() + 1);
         }
-        document.querySelector("pre").innerHTML = "";
-        document.querySelector("pre").innerHTML = "INSERT INTO TABLE VALUES " + html.join(",") + ";";
+        outputArea.innerHTML = "";
+        outputArea.innerHTML = "INSERT INTO TABLE VALUES " + html.join(",") + ";";
 
         // 天数
         // for(var i=0; i < 60; i++){
